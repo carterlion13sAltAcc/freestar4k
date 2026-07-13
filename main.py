@@ -118,33 +118,63 @@ adevice = None
 
 vencoder = "libx264"
 
-tcflocs = [
-    ("Atlanta, GA", "Atlanta"),
-    ("Boston, MA", "Boston"),
-    ("Chicago, IL", "Chicago"),
-    ("Cleveland, OH", "Cleveland"),
-    ("Dallas, TX", "Dallas"),
-    ("Denver, CO", "Denver"),
-    ("Detroit, MI", "Detroit"),
-    ("Hartford, CT", "Hartford"),
-    ("Houston, TX", "Houston"),
-    ("Indianapolis, IN", "Indianapolis"),
-    ("Los Angeles, CA", "Los Angeles"),
-    ("Miami, FL", "Miami"),
-    ("Minneapolis, MN", "Minneapolis"),
-    ("New York, NY", "New York"),
-    ("Norfolk, VA", "Norfolk"),
-    ("Orlando, FL", "Orlando"),
-    ("Philadelphia, PA", "Philadelphia"),
-    ("Pittsburgh, PA", "Pittsburgh"),
-    ("St. Louis, MO", "St. Louis"),
-    ("San Francisco, CA", "San Francisco"),
-    ("Seattle, WA", "Seattle"),
-    ("Syracuse, NY", "Syracuse"),
-    ("Tampa, FL", "Tampa"),
-    ("Washington DC", "Washington DC")
-]
+if textpos == 0:
+    tcflocs = [
+        ("Atlanta, GA", "Atlanta"),
+        ("Boston, MA", "Boston"),
+        ("Chicago, IL", "Chicago"),
+        ("Cleveland, OH", "Cleveland"),
+        ("Dallas, TX", "Dallas"),
+        ("Denver, CO", "Denver"),
+        ("Detroit, MI", "Detroit"),
+        ("Houston, TX", "Houston"),
+        ("Indianapolis, IN", "Indianapolis"),
+        ("Los Angeles, CA", "Los Angeles"),
+        ("Miami, FL", "Miami"),
+        ("Minneapolis, MN", "Minneapolis"),
+        ("New York, NY", "New York"),
+        ("Norfolk, VA", "Norfolk"),
+        ("Orlando, FL", "Orlando"),
+        ("Philadelphia, PA", "Philadelphia"),
+        ("Phoenix, AZ", "Phoenix"),
+        ("Pittsburgh, PA", "Pittsburgh"),
+        ("St. Louis, MO", "St. Louis"),
+        ("San Francisco, CA", "San Francisco"),
+        ("Seattle, WA", "Seattle"),
+        ("Syracuse, NY", "Syracuse"),
+        ("Tampa, FL", "Tampa"),
+        ("Washington DC", "Washington DC")
+    ]
+else:
+    tcflocs = [
+        ("Atlanta, GA", "Atlanta"),
+        ("Boston, MA", "Boston"),
+        ("Chicago, IL", "Chicago"),
+        ("Cleveland, OH", "Cleveland"),
+        ("Dallas, TX", "Dallas"),
+        ("Denver, CO", "Denver"),
+        ("Detroit, MI", "Detroit"),
+        ("Hartford, CT", "Hartford"),
+        ("Houston, TX", "Houston"),
+        ("Indianapolis, IN", "Indianapolis"),
+        ("Los Angeles, CA", "Los Angeles"),
+        ("Miami, FL", "Miami"),
+        ("Minneapolis, MN", "Minneapolis"),
+        ("New York, NY", "New York"),
+        ("Norfolk, VA", "Norfolk"),
+        ("Orlando, FL", "Orlando"),
+        ("Philadelphia, PA", "Philadelphia"),
+        ("Pittsburgh, PA", "Pittsburgh"),
+        ("St. Louis, MO", "St. Louis"),
+        ("San Francisco, CA", "San Francisco"),
+        ("Seattle, WA", "Seattle"),
+        ("Syracuse, NY", "Syracuse"),
+        ("Tampa, FL", "Tampa"),
+        ("Washington DC", "Washington DC")
+    ]
+
 tcflocs = [[*e, None, None] for e in tcflocs]
+
 
 mute = False
 
