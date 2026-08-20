@@ -428,8 +428,11 @@ class Launcher(wx.Frame):
         paas.Add(wx.StaticText(paa, label="NWS Climate PIL (e.g. CLIJFK):"), 0, wx.ALL, 2)
         mesoid = wx.TextCtrl(paa)
         paas.Add(mesoid, 0, wx.ALL | wx.EXPAND, 2)
+        paas.Add(wx.StaticText(paa, label="NWS Office ID for Local Report (e.g. PHI):"), 0, wx.ALL, 2)
+        nwslfoffice = wx.TextCtrl(paa)
+        paas.Add(nwslfoffice, 0, wx.ALL | wx.EXPAND, 2)
         pas.Add(paa, 1, wx.ALL | wx.EXPAND, 2)
-
+        
         paa = wx.Panel(pa)
         paas = wx.BoxSizer(wx.VERTICAL)
         paa.SetSizer(paas)
@@ -592,12 +595,13 @@ class Launcher(wx.Frame):
         radarint.SetValue(0.25)
         radarhold.SetValue(2.50)
 
-        if conf_exist:
+          if conf_exist:
             mainloc.SetValue(existing_conf.get("mainloc", ""))
             #altloc.SetValue(existing_conf.get("altloc", ""))
             mainloc2.SetValue(existing_conf.get("mainloc2", ""))
             #altloc2.SetValue(existing_conf.get("altloc2", ""))
             mesoid.SetValue(existing_conf.get("mesoid", ""))
+            nwslfoffice.SetValue(existing_conf.get("nwslfoffice", ""))
             efname.SetValue(existing_conf.get("efname", ""))
             extra.SetValue(existing_conf.get("extra", ""))
             if "schedule" in existing_conf:
@@ -735,6 +739,7 @@ class Launcher(wx.Frame):
             "lf": "36-Hour Forecast",
             "xf": "Extended Forecast",
             "lr": "Local Radar",
+            "nwslf": "Local Report",
             "cr": "Current Radar",
             "al": "Almanac",
             "ol": "Outlook",
@@ -939,6 +944,7 @@ class Launcher(wx.Frame):
         addPageSelector("Tides", "ti", "Shows tidal information for specified areas.")
         addPageSelector("Outlook", "ol", "Predicts trends for the next 30 days.")
         addPageSelector("Local Radar", "lr", "Shows an animated radar for the last 90 minutes.", 16)
+        addPageSelector("Local Report", "nwslf", "Scrolls the latest NWS short-term forecast text for your office.", 20)
         addPageSelector("Current Radar", "cr", "Shows a static radar image.")
         addPageSelector("Travel Cities Forecast", "tcf", "Shows forecasts for popular travel locations.", 48)
         addPageSelector("Intro (Custom)", "intro", "Introductory slide. Place messages in introtext.txt", 5)
@@ -1113,6 +1119,7 @@ class Launcher(wx.Frame):
             items.append(("mainloc2", str(mainloc2.GetValue())))
             items.append(("musicdir", musicdir.GetPath()))
             items.append(("mesoid", mesoid.GetValue()))
+            items.append(("nwslfoffice", nwslfoffice.GetValue()))
             items.append(("extra", extra.GetValue()))
             items.append(("crawlint", crawlint.GetSelection()))
             items.append(("ldlbg", bgg.GetPath()))
