@@ -1088,8 +1088,13 @@ def frender(font, text, aa, color):
 
 fw = 1.1
 
+scale_cache = {}
 def scalec(og, font, text, color, w):
+    key = (id(og), w)
+    if key in scale_cache:
+        return scale_cache[key]
     sl = pg.transform.smoothscale_by(og, w)
+    scale_cache[key] = sl
     return sl
 
 def renderoutline(font, text, x, y, width, color=(0, 0, 0), surface=win, og=None, ofw=None):
@@ -1118,6 +1123,8 @@ def shorten_phrase(phrase : str):
     replacelist = {"Ice Crystals": "Ice"}
     if phrase in replacelist:
         return replacelist[phrase]
+    if "Thundershowers" in phrase:
+        return phrase.replace("Thundershowers", "T'Storm")
     if "Shower" in phrase:
         t = phrase.replace("Shower", "Shwr")
         if len(t) < 9:
@@ -2233,7 +2240,7 @@ while working:
         intropicked = True
     
     try:
-        sanitize = (lambda tx : tx.replace("in the Vicinity", "Near").replace("Thunderstorm", "T'Storm"))
+        sanitize = (lambda tx : tx.replace("in the Vicinity", "Near").replace("Thundershowers", "T'Storm").replace("Thunderstorm", "T'Storm"))
         ccphrase = sanitize(wxdata["current"]["info"]["phraseLong"])
         if len(ccphrase) > len(" Partly Cloudy "): #sorry i had no better text reference
             ccphrase = sanitize(wxdata["current"]["info"]["phraseMedium"])
@@ -2434,7 +2441,7 @@ while working:
                     elif wxdata["current"]["conditions"]["feelsLike"] < wxdata["current"]["conditions"]["temperature"]:
                         additional = "Wind Chill:"
                     else:
-                        additional = ""
+                        additional = "Heat Index:"
                     if additional:
                         drawshadow(starfont32, additional, 394+txoff, 347+ldl_y, 3, ofw=1.07, mono=15, upper=veryuppercase)
                         drawshadow(starfont32, f"{padtext(wxdata['current']['conditions']['feelsLike'], 3)}°", 576+txoff, 347+ldl_y, 3, mono=19, upper=veryuppercase)
@@ -2500,7 +2507,6 @@ while working:
                     f"                    WEATHER   °{temp_symbol}")
         elif slide == "lf":
             drawshadow(startitlefont, your+"Local Forecast", 181+txoff//3, 39+ldl_y, 3, color=yeller, mono=15.5, ofw=1.07, bs=True, upper=veryuppercase)
-            #win.blit(pg.transform.smoothscale_by(noaa, (1.2, 1)), (412, 40))
             
             alert36 = False
             allines = []
@@ -2601,7 +2607,7 @@ while working:
             def supper(text):
                 if "uppercaseAMPM" in old:
                     return text.upper()
-                return text
+                return text.lower()
             drawshadow(startitlefont, "Almanac", 181+txoff//3, 39+ldl_y, 3, color=yeller, mono=18, ofw=1.07, bs=True, upper=veryuppercase)
             if aldata["sun"]:
                 drawshadow(starfont32, "Sunrise:", 76+txoff, 114+ldl_y, 3, mono=gmono, char_offsets={})
@@ -3076,6 +3082,7 @@ while working:
         drawshadow(startitlefont, your+"Latest Observations", 181, 39+ldl_y, 3, color=yeller, mono=15.5, ofw=1.07, bs=True, upper=veryuppercase)
     elif slide == "lf":
         drawshadow(startitlefont, your+"Local Forecast", 181+txoff//3, 39+ldl_y, 3, color=yeller, mono=15.5, ofw=1.07, bs=True, upper=veryuppercase)
+        win.blit(pg.transform.smoothscale_by(noaa, (1.2, 1)), (412, 40))
     elif slide == "al":
         drawshadow(startitlefont, "Almanac", 181+txoff//3, 39+ldl_y, 3, color=yeller, mono=18, ofw=1.07, bs=True, upper=veryuppercase)
     elif slide == "xf":
