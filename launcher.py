@@ -594,8 +594,7 @@ class Launcher(wx.Frame):
         radarhold.SetIncrement(0.01)
         radarint.SetValue(0.25)
         radarhold.SetValue(2.50)
-
-          if conf_exist:
+        if conf_exist:
             mainloc.SetValue(existing_conf.get("mainloc", ""))
             #altloc.SetValue(existing_conf.get("altloc", ""))
             mainloc2.SetValue(existing_conf.get("mainloc2", ""))
@@ -605,7 +604,7 @@ class Launcher(wx.Frame):
             efname.SetValue(existing_conf.get("efname", ""))
             extra.SetValue(existing_conf.get("extra", ""))
             if "schedule" in existing_conf:
-                schedmins.SetValue(",".join([str(e) for e in existing_conf["schedule"]]))
+            schedmins.SetValue(",".join([str(e) for e in existing_conf["schedule"]]))
             sldl.SetValue(existing_conf.get("ldlmode", False))
             frvr.SetValue(existing_conf.get("forever", True))
             frvr2.SetValue(existing_conf.get("foreverldl", True))
