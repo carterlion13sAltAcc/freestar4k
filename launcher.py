@@ -1170,7 +1170,7 @@ class Launcher(wx.Frame):
                 pass
             items.append(("ldlfeed", iv))
             
-            pagemap = {
+               pagemap = {
                 "Current Conditions": "cc",
                 "Old Current Conditions": "oldcc",
                 "Latest Observations": "lo",
@@ -1179,6 +1179,7 @@ class Launcher(wx.Frame):
                 "36-Hour Forecast": "lf",
                 "Extended Forecast": "xf",
                 "Local Radar": "lr",
+                "Local Report": "nwslf",
                 "Current Radar": "cr",
                 "Almanac": "al",
                 "Outlook": "ol",
