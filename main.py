@@ -197,6 +197,7 @@ try:
     flavor_times = [f[1] for f in flavor_un]
     musicpath = conf.musicdir
     afos_climate = conf.mesoid
+    nwslfoffice = conf.nwslfoffice
     extraldltext = conf.extra
     crawlintervaltime = [15*minutes, 30*minutes, 1*hours, 2*hours, 3*hours, 4*hours, 6*hours, 8*hours, 12*hours, 24*hours][conf.crawlint]
     crawlinterval = crawlintervaltime*1
@@ -1610,6 +1611,16 @@ def wraptext(text, ll=32):
             nl += " "
         final.append(nl.strip())
     return final
+            def get_local_report(office_id):
+    try:
+        listing = r.get(f"https://api.weather.gov/products/types/NOW/locations/{office_id}").json()
+        if not listing.get("@graph"):
+            return None
+        latest_id = listing["@graph"][0]["id"]
+        product = r.get(f"https://api.weather.gov/products/{latest_id}").json()
+        return product.get("productText")
+    except:
+        return None
 
 def drawing(text, amount, ram=False):
     final = ""
@@ -2150,13 +2161,18 @@ while working:
             working = False
     if not ldlmode:
         colorbug_started = True
-    if schedule:
+   if schedule:
         mn = int(dt.datetime.now().strftime("%M"))
         if mn not in schedule:
             fired = False
         if not fired and mn in schedule:
             fired = True
             ldlmode = False
+
+    if slide != "intro":
+        intropicked = False
+    if slide != "nwslf":
+        nwslfpicked = False
     your = "Your " if ("oldtitles" in old and (textpos > 1 or widescreen)) else ""
     delta = cl.tick(framerate) / 1000
     
@@ -2235,9 +2251,12 @@ while working:
     
     slide = flavor[slideidx]
     
-    if slide == "intro" and not intropicked:
+       if slide == "intro" and not intropicked:
         introtx = rd.choice(intros)
         intropicked = True
+    if slide == "nwslf" and not nwslfpicked:
+        nwslftx = get_local_report(nwslfoffice) or "No local report available."
+        nwslfpicked = True
     
     try:
         sanitize = (lambda tx : tx.replace("in the Vicinity", "Near").replace("Thundershowers", "T'Storm").replace("Thunderstorm", "T'Storm"))
@@ -2764,9 +2783,8 @@ while working:
                         wt = textmerge(wc, f"   {ws}")
                     drawshadow(starfont32, wt, 62+14+txoff+18*20, 96+14+ldl_y+(yoo+77)*i+9, 3, mono=gmono, upper=veryuppercase)
                     drawreg(dficons[j-4], (640+txoff-15, 96+14+ldl_y+(yoo+77)*i+20), ix=(m.floor(iconidx3) % len(dficons[j-4])))
-        elif slide == "intro":
+         elif slide == "intro":
             drawshadow(startitlefont, "Welcome!", 181+txoff//3, 39+ldl_y, 3, color=yeller, mono=15.5, ofw=1.07, bs=True, upper=veryuppercase)
-
             generaldrawidx += 3.5 / (framerate / 30)
             generaldrawidx = round(generaldrawidx*100)/100
             dr = generaldrawidx*1
@@ -2781,10 +2799,15 @@ while working:
                 tx, dr = drawing(line, dr, True)
                 drawshadow(starfont32, tx, 98+txoff, 109+linespacing*1.75+32*i+ldl_y, 3, mono=gmono, char_offsets={})
                 #dr -= len(line.replace(" ", ""))
+        elif slide == "nwslf":
+            drawshadow(startitlefont, "Local Report", 181+txoff//3, 39+ldl_y, 3, color=yeller, mono=15.5, ofw=1.07, bs=True, upper=veryuppercase)
+            for i, line in enumerate(wraptext(nwslftx, 30)):
+                drawshadow(starfont32, line, 98+txoff, 109+linespacing*1.75+32*i+ldl_y, 3, mono=gmono, char_offsets={})
         elif slide == "ro":
             win.blit(regmapcut, (0, 0))
             drawshadow(startitlefont, "Regional", 194+txoff//3, 25+ldl_y, 3, color=yeller, mono=18, ofw=1.07, bs=True, upper=veryuppercase)
             drawshadow(startitlefont, "Observations", 194+txoff//3, 52+ldl_y, 3, color=yeller, mono=18, ofw=1.07, bs=True, upper=veryuppercase)
+            
             
             def drawregloc(name, temp, idx, pos):
                 if reglocs[idx][2]:
