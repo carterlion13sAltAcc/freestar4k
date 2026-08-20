@@ -1609,9 +1609,10 @@ def wraptext(text, ll=32):
                 nl = ""
             nl += word
             nl += " "
-        final.append(nl.strip())
+         final.append(nl.strip())
     return final
-            def get_local_report(office_id):
+
+def get_local_report(office_id):
     try:
         listing = r.get(f"https://api.weather.gov/products/types/NOW/locations/{office_id}").json()
         if not listing.get("@graph"):
