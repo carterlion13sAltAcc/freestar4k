@@ -151,11 +151,11 @@ def check_updates(frame):
     tags = None
     commits = None
     try:
-        tags = r.get("https://api.github.com/repos/LeWolfYT/freestar4k/tags").json()
+        tags = r.get("https://api.github.com/repos/carterlion13sAltAcc/freestar4k/tags").json()
     except:
         err = True
     try:
-        commits = r.get("https://api.github.com/repos/LeWolfYT/freestar4k/commits").json()
+        commits = r.get("https://api.github.com/repos/carterlion13sAltAcc/freestar4k/commits").json()
     except:
         err =  True
     if err:
